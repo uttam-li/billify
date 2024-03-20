@@ -1,8 +1,7 @@
 "use server";
-import { redirect } from "next/navigation";
 
-import { getServerSession } from "next-auth";
 import { authOption, getServerAuthSession } from "./auth";
+import { db } from "./db";
 
 export async function getUserSession() {
   const session = await getServerAuthSession();
@@ -20,4 +19,13 @@ export async function getUserSession() {
       session,
     },
   };
+}
+
+export async function getUserOrganization() {
+  let session = 'data'
+  return {
+    // props: {
+      session
+    // }
+  }
 }
