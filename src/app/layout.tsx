@@ -3,6 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Provider from "@/providers/provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -22,8 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={poppins.className}>
+      <body className={inter.className}>
         <Provider>{children}</Provider>
+        <Toaster />
       </body>
     </html>
   );

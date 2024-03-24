@@ -1,12 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function NavBar() {
-  const {data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter()
   const userImage = session?.user.image;
   return (
@@ -24,8 +25,8 @@ export default function NavBar() {
               height={40}
               alt="User Image"
             />
-            <Button onClick={() => router.push('/account')}>Dashboard</Button>
-            <Button onClick={() => signOut()}>Sign Out</Button>
+            <Button onClick={() => router.push('/organization')}>Dashboard</Button>
+            <Button variant="destructive" size="icon" onClick={() => signOut()}><LogOut/></Button>
           </div>
         ) : (
           <>

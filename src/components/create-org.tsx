@@ -19,12 +19,12 @@ export default function CreateOrganization() {
       <DialogTrigger asChild>
         <Button>Create New Company</Button>
       </DialogTrigger>
-      <DialogContent className="w-[350px] md:w-[600px] h-full">
+      <DialogContent className="w-[350px] md:w-[600px] h-[500px] md:h-[700px]">
         <ScrollArea>
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Create New Company</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Fill in the form below to create a new company.
           </DialogDescription>
         </DialogHeader>
         {/* <div className="grid gap-4 py-4">
@@ -49,7 +49,7 @@ export default function CreateOrganization() {
             />
           </div>
         </div> */}
-        <OrganizationForm />
+        <OrganizationForm inDialog />
         {/* <DialogFooter>
           <Button type="submit">Save changes</Button>
         </DialogFooter> */}

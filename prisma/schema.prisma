@@ -28,20 +28,22 @@ model Account {
 }
 
 model Organization {
-  orgId        String   @id @default(uuid())
+  orgId        String     @id @default(uuid())
   userId       String
   name         String
-  companyEmail String   @db.Text
+  gstno        String
+  companyEmail String     @db.Text
   companyPhone String
   address      String
   city         String
   zipCode      String
   state        String
   country      String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  customers    Customer[]
+  products     Product[]
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Define the Session model
@@ -62,36 +64,43 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  organization  Organization[]
+  organizations Organization[]
 }
 
 // Define the Customer model
 model Customer {
-  id        Int       @id @default(autoincrement())
-  name      String
-  email     String?
-  phone     String?
-  address   String?
-  createdAt DateTime  @default(now())
-  Invoice   Invoice[]
+  id             String       @id @default(uuid())
+  organizationId String
+  name           String
+  gstno          String
+  email          String?
+  phone          String?
+  baddress       String?
+  saddress       String?
+  createdAt      DateTime     @default(now())
+  Invoice        Invoice[]
+  organization   Organization @relation(fields: [organizationId], references: [orgId], onDelete: Cascade)
 }
 
 // Define the Product model
 model Product {
-  id          Int           @id @default(autoincrement())
-  name        String
-  description String?
-  price       Float
-  taxRate     Float
-  createdAt   DateTime      @default(now())
-  InvoiceItem InvoiceItem[]
+  id             String        @id @default(uuid())
+  organizationId String
+  name           String
+  price          Float
+  taxRate        Float
+  unit           String
+  hsnCode        String
+  createdAt      DateTime      @default(now())
+  InvoiceItem    InvoiceItem[]
+  organization   Organization   @relation(fields: [organizationId], references: [orgId], onDelete: Cascade)
 }
 
 // Define the Invoice model
 model Invoice {
-  id          Int           @id @default(autoincrement())
+  id          String        @id @default(uuid())
   customer    Customer      @relation(fields: [customerId], references: [id])
-  customerId  Int
+  customerId  String
   totalAmount Float
   dueDate     DateTime
   isPaid      Boolean       @default(false)
@@ -104,20 +113,20 @@ model Invoice {
 
 // Define the InvoiceItem model
 model InvoiceItem {
-  id        Int     @id @default(autoincrement())
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId Int
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  id        String  @id @default(uuid())
+  invoiceId String
+  productId String
   quantity  Int
   unitPrice Float
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 // Define the Payment model
 model Payment {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   invoice     Invoice  @relation(fields: [invoiceId], references: [id])
-  invoiceId   Int
+  invoiceId   String
   amount      Float
   paymentDate DateTime
   method      String
