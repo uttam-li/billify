@@ -28,7 +28,7 @@ export default function OrgNavbar() {
       <aside className="flex items-center gap-4">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" className="aspect-square" size="icon"><Menu /></Button>
+            <Button variant="outline" className="border-none hover:scale-105 transition-all active:scale-90" size="icon"><Menu /></Button>
           </SheetTrigger>
           <SheetContent side={"left"}>
             <div className="flex flex-col items-center mt-6 gap-y-8">
@@ -44,17 +44,17 @@ export default function OrgNavbar() {
               }
               <Button
                 variant='outline'
-                className="w-full max-w-[250px] inline-flex gap-2 hover:gap-x-4 hover:bg-red-500/30 transition-all"
+                className="w-full max-w-[250px] inline-flex gap-2 hover:gap-x-4 hover:bg-red-500/30 transition-all border-none"
                 onClick={() => signOut()}
               ><LogOut /> Log Out</Button>
               <hr className="w-full border" />
             </div>
-            <ul className="flex flex-col justify-center my-5 gap-y-3">
+            <ul className="flex w-full flex-col justify-between items-center my-5 gap-y-3">
               {navLinks.map((link) => (
-                <li key={link.href} >
+                <li key={link.href} className="w-full max-w-[250px]">
                   <SheetClose asChild>
                     <Link
-                      className="w-full hover:border hover:bg-secondary hover:gap-x-4 h-10 rounded-lg inline-flex gap-x-2 transition-all items-center pl-5 font-semibold"
+                      className="w-full hover:scale-105 active:scale-90 hover:bg-secondary hover:gap-x-4 h-10 rounded-md flex gap-x-2 transition-all items-center justify-start pl-5 font-medium"
                       href={`/organization/${org.orgId}/${link.href}`}
                     >{link.icon}{link.name}</Link>
                   </SheetClose>

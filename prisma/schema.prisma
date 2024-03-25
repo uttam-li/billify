@@ -93,22 +93,24 @@ model Product {
   hsnCode        String
   createdAt      DateTime      @default(now())
   InvoiceItem    InvoiceItem[]
-  organization   Organization   @relation(fields: [organizationId], references: [orgId], onDelete: Cascade)
+  organization   Organization  @relation(fields: [organizationId], references: [orgId], onDelete: Cascade)
 }
 
 // Define the Invoice model
 model Invoice {
-  id          String        @id @default(uuid())
-  customer    Customer      @relation(fields: [customerId], references: [id])
-  customerId  String
-  totalAmount Float
-  dueDate     DateTime
-  isPaid      Boolean       @default(false)
-  paidDate    DateTime?
-  createdAt   DateTime      @default(now())
+  id             String        @id @default(uuid())
+  invoiceNo      Int           @unique
+  organizationId String
+  customer       Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId     String
+  totalAmount    Float
+  invDate        DateTime
+  dueDate        DateTime
+  isPaid         Boolean       @default(false)
+  paidDate       DateTime?
+  createdAt      DateTime      @default(now())
   // Define the relation to InvoiceItem
-  items       InvoiceItem[]
-  Payment     Payment[]
+  items          InvoiceItem[]
 }
 
 // Define the InvoiceItem model
@@ -118,17 +120,6 @@ model InvoiceItem {
   productId String
   quantity  Int
   unitPrice Float
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
-}
-
-// Define the Payment model
-model Payment {
-  id          String   @id @default(uuid())
-  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
-  invoiceId   String
-  amount      Float
-  paymentDate DateTime
-  method      String
-  createdAt   DateTime @default(now())
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }

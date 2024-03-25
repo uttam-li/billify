@@ -1,6 +1,12 @@
 "use server";
 
-import { Customer, Organization, Product } from "@prisma/client";
+import {
+  Customer,
+  Invoice,
+  InvoiceItem,
+  Organization,
+  Product,
+} from "@prisma/client";
 import { authOption, getServerAuthSession } from "./auth";
 import { db } from "./db";
 
@@ -96,6 +102,158 @@ export async function upsertOrganization(org: Organization) {
     console.error(error);
   }
   return;
+}
+
+export async function getInvoiceById(id: string) {
+  if (!id) return;
+  try {
+    const invoice = await db.invoice.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return invoice;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function upsertInvoice(invoice: Invoice) {
+  if (!invoice.id) {
+    console.log("Invoice ID is required");
+    return;
+  }
+  try {
+    const invoiceDetail = await db.invoice.upsert({
+      where: {
+        id: invoice.id,
+      },
+      update: {
+        customer: {
+          connect: {
+            id: invoice.customerId,
+          },
+        },
+        id: invoice.id,
+        invoiceNo: invoice.invoiceNo,
+        organizationId: invoice.organizationId,
+        totalAmount: invoice.totalAmount,
+        invDate: invoice.invDate,
+        dueDate: invoice.dueDate,
+        isPaid: invoice.isPaid,
+        paidDate: invoice.paidDate,
+        createdAt: invoice.createdAt,
+      },
+      create: {
+        customer: {
+          connect: {
+            id: invoice.customerId,
+          },
+        },
+        id: invoice.id,
+        invoiceNo: invoice.invoiceNo,
+        organizationId: invoice.organizationId,
+        totalAmount: invoice.totalAmount,
+        invDate: invoice.invDate,
+        dueDate: invoice.dueDate,
+        isPaid: invoice.isPaid,
+        paidDate: invoice.paidDate,
+        createdAt: invoice.createdAt,
+      },
+    });
+    return invoiceDetail;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function upsertInvoiceItem(invoiceItem: InvoiceItem) {
+  if (!invoiceItem.id) {
+    console.log("Invoice Item ID is required");
+    return;
+  }
+  try {
+    const invoiceItemDetail = await db.invoiceItem.upsert({
+      where: {
+        id: invoiceItem.id,
+      },
+      update: {
+        invoice: {
+          connect: {
+            id: invoiceItem.invoiceId,
+          },
+        },
+        product: {
+          connect: {
+            id: invoiceItem.productId,
+          },
+        },
+        id: invoiceItem.id,
+        quantity: invoiceItem.quantity,
+        unitPrice: invoiceItem.unitPrice,
+      },
+      create: {
+        invoice: {
+          connect: {
+            id: invoiceItem.invoiceId,
+          },
+        },
+        product: {
+          connect: {
+            id: invoiceItem.productId,
+          },
+        },
+        id: invoiceItem.id,
+        quantity: invoiceItem.quantity,
+        unitPrice: invoiceItem.unitPrice,
+      },
+    });
+    return invoiceItemDetail;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getInvoiceItemById(id: string) {
+  if (!id) return;
+  try {
+    const invoiceItem = await db.invoiceItem.findMany({
+      where: {
+        invoiceId: id,
+      },
+    });
+    return invoiceItem;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getInvoicesByOrgId(orgId: string) {
+  if (!orgId) return;
+  try {
+    const invoiceDetail = await db.invoice.findMany({
+      where: {
+        organizationId: orgId,
+      },
+    });
+    return invoiceDetail;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function deleteInvoiceById(id: string) {
+  if (!id) return;
+  try {
+    const invoiceDetail = await db.invoice.delete({
+      where: {
+        id: id,
+      },
+    });
+    return invoiceDetail;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function getCustomersByOrgId(orgId: string) {
@@ -194,8 +352,8 @@ export async function upsertProduct(product: Product) {
       create: {
         organization: {
           connect: {
-            orgId: product.organizationId
-          }
+            orgId: product.organizationId,
+          },
         },
         name: product.name,
         price: product.price,
@@ -203,25 +361,25 @@ export async function upsertProduct(product: Product) {
         unit: product.unit,
         hsnCode: product.hsnCode,
         createdAt: product.createdAt || new Date(),
-      }
-    })
-    return productDetail
+      },
+    });
+    return productDetail;
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
 export async function deleteProductById(id: string) {
   if (!id) return;
   try {
-     const productDetail = await db.product.delete({
+    const productDetail = await db.product.delete({
       where: {
-        id: id
-      }
-     })
-     return productDetail
+        id: id,
+      },
+    });
+    return productDetail;
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
@@ -238,3 +396,21 @@ export async function deleteCustomerById(id: string) {
     console.log(error);
   }
 }
+
+// export async function getInvoicesByOrgId(id: string) {
+//   if (!id ) return
+//   try {
+//     const invoiceDetail = await db.invoice.findMany({
+//       where: {
+//         organizationId: id
+//       },
+//       include: {
+//         items: {
+//           select: {
+
+//           }
+//         }
+//       }
+//     })
+//   }
+// }

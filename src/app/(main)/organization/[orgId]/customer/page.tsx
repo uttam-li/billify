@@ -3,7 +3,7 @@
 import CustomerDialog from '@/components/cust-dialog'
 import Loading from '@/components/loading'
 import { Button } from '@/components/ui/button'
-import { Table, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { toast } from '@/components/ui/use-toast'
 import { deleteCustomerById, getCustomersByOrgId, getOrganizationById } from '@/lib/actions'
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query'
@@ -52,6 +52,7 @@ export default function CustomerPage({ params }: { params: { orgId: string } }) 
                 <TableHead className='w-10'>Delete</TableHead>
               </TableRow>
             </TableHeader>
+            <TableBody>
             {customerList?.length === 0 && !isLoading && <TableRow><TableCell colSpan={5} className='text-muted-foreground text-center'>No Customers Available</TableCell></TableRow>}
             {customerList?.map(({ Invoice, ...detail }) =>
               <TableRow key={detail.id}>
@@ -62,6 +63,7 @@ export default function CustomerPage({ params }: { params: { orgId: string } }) 
                 <TableCell><Button variant="destructive" size="icon" onClick={() => deleteCustomer.mutate(detail.id)}><Trash2 /></Button></TableCell>
               </TableRow>
             )}
+            </TableBody>
           </Table>
           :
           <p className='m-auto my-40 text-muted-foreground'>! No Customers Available</p>
