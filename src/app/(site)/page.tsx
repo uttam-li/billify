@@ -22,6 +22,7 @@ export default function Home() {
         <div className="flex justify-center items-center relative md:mt-[-70px] -z-20">
           <Image
             src={"/dashboard.png"}
+            quality={100}
             alt="banner image"
             height={1200}
             width={1200}
