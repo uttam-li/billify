@@ -26,7 +26,7 @@ export default function Home() {
             alt="banner image"
             height={1200}
             width={1200}
-            className="rounded-3xl"
+            className="rounded-lg"
           />
           <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-50"></div>
         </div>

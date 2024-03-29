@@ -17,7 +17,16 @@ export default function NavBar() {
         <Image src={"/bill.png"} height={40} width={40} alt="Billify-Logo" />
       </aside>
       <aside className="md:hidden">
-      <Button onClick={() => router.push('/organization')}>Dashboard</Button>
+        {
+          session?.user.id ?
+            <>
+              <Button onClick={() => router.push('/organization')}>Dashboard</Button>
+            </>
+            :
+            <>
+              <Image src={"/bill.png"} height={40} width={40} alt="Billify-Logo" />
+            </>
+        }
       </aside>
       <aside>
         {userImage ? (
@@ -31,7 +40,7 @@ export default function NavBar() {
               alt="User Image"
             />
             <Button className="hidden md:block" onClick={() => router.push('/organization')}>Dashboard</Button>
-            <Button variant="destructive" size="icon" onClick={() => signOut()}><LogOut/></Button>
+            <Button variant="destructive" size="icon" onClick={() => signOut()}><LogOut /></Button>
           </div>
         ) : (
           <>
