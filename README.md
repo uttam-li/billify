@@ -108,7 +108,6 @@ Before you begin, ensure you have met the following requirements:
 
     # For production (replace 'your-hosted-url' with your actual hosted URL)
     NEXTAUTH_URL="your-hosted-url"
-    NEXTAUTH_URL="your-nextauth-secret"
     
     # Obtain all the secrets from the respective providers
     GOOGLE_ID="<Your Google ID>"
