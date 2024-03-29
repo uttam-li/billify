@@ -9,22 +9,23 @@ import {
 } from "@/components/ui/sheet"
 import { LogOut, Menu } from "lucide-react"
 import BillifyLogo from "./logo"
-import { useQueryClient } from "@tanstack/react-query"
 import { signOut, useSession } from "next-auth/react"
-import { Organization } from "@prisma/client"
 import Link from "next/link"
 import { navLinks } from "@/lib/constant"
 import { ModeToggle } from "./mode-toggle"
-import { ScrollArea } from "./ui/scroll-area"
 import Image from "next/image"
+import Loading from "./loading"
+import { useSearchParams } from "next/navigation"
 
 export default function OrgNavbar() {
-  const { data: session } = useSession()
-  const queryClient = useQueryClient()
-  if (!session) return null
-  const { name: userName, email: userEmail, image: userImage } = session?.user
-  const org: Organization | undefined = queryClient.getQueryData(['org'])
-  if (!org) return null
+  const { data: session, status } = useSession()
+  const params = useSearchParams()
+  const orgId = params.get('orgId')
+
+  const { name: userName, email: userEmail, image: userImage } = session?.user || {}
+
+  if (status === 'loading') return <Loading />
+  if (!session ) return
   return (
     <div className="fixed h-16 px-4 max-w-[1500px] mx-auto left-0 right-0 top-0 flex items-center justify-between bg-secondary rounded-full my-2">
       <aside className="flex items-center gap-4">
@@ -64,7 +65,7 @@ export default function OrgNavbar() {
                     <SheetClose asChild>
                       <Link
                         className="w-full hover:scale-105 active:scale-90 hover:bg-secondary hover:gap-x-4 h-10 rounded-md flex gap-x-2 transition-all items-center justify-start pl-5 font-medium"
-                        href={`/organization/${org.orgId}/${link.href}`}
+                        href={`/organization/${orgId}/${link.href}`}
                       >{link.icon}{link.name}</Link>
                     </SheetClose>
                   </li>
@@ -73,7 +74,7 @@ export default function OrgNavbar() {
             {/* </ScrollArea> */}
           </SheetContent>
         </Sheet>
-        <Link href={`/organization/${org.orgId}`}>
+        <Link href={`/organization/${orgId}`}>
           <BillifyLogo size="text-4xl" />
         </Link>
       </aside>
