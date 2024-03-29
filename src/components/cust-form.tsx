@@ -27,7 +27,7 @@ export default function CustomerForm({ prevData }: { prevData?: Customer }) {
 
     const queryClient = useQueryClient()
     const orgData: Organization | undefined = queryClient.getQueryData(['org'])
-    if (orgData === undefined) return null
+
     const form = useForm<z.infer<typeof formSchema>>({
         mode: "onChange",
         resolver: zodResolver(formSchema),
@@ -41,14 +41,14 @@ export default function CustomerForm({ prevData }: { prevData?: Customer }) {
         },
     })
 
-    const isLoading = form.formState.isSubmitting
+    const isLoading = form.formState.isSubmitting   
     const isValid = form.formState.isValid
 
     const onSubmit = useMutation({
         mutationKey: ["customer"],
         mutationFn: async (values: z.infer<typeof formSchema>) => await upsertCustomer({
             id: prevData?.id || v4(),
-            organizationId: prevData?.organizationId || orgData?.orgId,
+            organizationId: prevData?.organizationId || orgData?.orgId as string,
             name: values.name,
             gstno: values.gstno,
             email: values.email,
@@ -72,6 +72,9 @@ export default function CustomerForm({ prevData }: { prevData?: Customer }) {
             })
         }
     })
+
+    if (orgData === undefined) return null
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit((data) => onSubmit.mutate(data))}

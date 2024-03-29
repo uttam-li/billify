@@ -16,6 +16,7 @@ import Link from "next/link"
 import { navLinks } from "@/lib/constant"
 import { ModeToggle } from "./mode-toggle"
 import { ScrollArea } from "./ui/scroll-area"
+import Image from "next/image"
 
 export default function OrgNavbar() {
   const { data: session } = useSession()
@@ -36,7 +37,7 @@ export default function OrgNavbar() {
               <BillifyLogo size="text-4xl" />
               {userImage &&
                 <>
-                  <img
+                  <Image
                     src={userImage}
                     className="object-fill rounded-full"
                     width={100}
@@ -79,7 +80,7 @@ export default function OrgNavbar() {
       <aside className="flex gap-2">
         <ModeToggle />
         {userImage &&
-          <img
+          <Image
             src={userImage}
             className="object-fill rounded-full"
             width={40}

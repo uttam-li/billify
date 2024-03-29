@@ -55,7 +55,7 @@ export default function TestimonialCard() {
             </CardHeader>
             <CardContent className="flex h-40 items-center justify-center">
               <span className="text-muted-foreground">
-                I can't say enough about Billify. Billify has really helped our
+                I can&apos;t say enough about Billify. Billify has really helped our
                 business.
               </span>
             </CardContent>
@@ -77,7 +77,7 @@ export default function TestimonialCard() {
             <CardContent className="flex h-40 items-center justify-center">
               <span className="text-muted-foreground">
                 Billify makes me more productive and gets the job done in a
-                fraction of the time. I'm glad I found Billify.
+                fraction of the time. I&apos;m glad I found Billify.
               </span>
             </CardContent>
           </Card>

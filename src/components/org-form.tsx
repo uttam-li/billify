@@ -41,9 +41,9 @@ const formSchema = z.object({
 });
 
 export default function OrganizationForm({ prevData, inDialog = false }: { prevData?: Organization, inDialog?: boolean }) {
+
   const queryClient = useQueryClient();
   const { data: session } = useSession()
-  if (!session) return null
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -64,6 +64,7 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
       ifsc: prevData?.ifsc || ""
     },
   });
+
   const isLoading = form.formState.isSubmitting;
   const isValid = form.formState.isValid;
 
@@ -71,7 +72,7 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
     mutationFn: async (values: z.infer<typeof formSchema>) => await upsertOrganization({
       orgId: prevData?.orgId || v4(),
       gstno: values.gstno,
-      userId: session?.user.id,
+      userId: session?.user.id as string,
       name: values.name,
       companyEmail: values.companyEmail,
       companyPhone: values.companyPhone,
@@ -96,6 +97,9 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
       queryClient.invalidateQueries({ queryKey: ['org'] })  
     }
   })
+
+  if (!session) return null
+
 
   return (
     <Form {...form}>

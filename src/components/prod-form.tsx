@@ -24,7 +24,7 @@ export default function ProductsForm({ prevData }: { prevData?: Product }) {
 
     const queryClient = useQueryClient()
     const orgData: Organization | undefined = queryClient.getQueryData(['org'])
-    if (orgData === undefined) return null
+
     const form = useForm<z.infer<typeof formSchema>>({
         mode: 'onChange',
         resolver: zodResolver(formSchema),
@@ -44,7 +44,7 @@ export default function ProductsForm({ prevData }: { prevData?: Product }) {
         mutationKey: ['product'],
         mutationFn: async (values: z.infer<typeof formSchema>) => await upsertProduct({
             id: prevData?.id || v4(),
-            organizationId: prevData?.organizationId || orgData?.orgId,
+            organizationId: prevData?.organizationId || orgData?.orgId as string,
             name: values.name,
             price: values.price,
             taxRate: values.taxRate,
@@ -66,6 +66,8 @@ export default function ProductsForm({ prevData }: { prevData?: Product }) {
             })
         }
     })
+
+    if (orgData === undefined) return null
 
     return (
         <Form {...form}>

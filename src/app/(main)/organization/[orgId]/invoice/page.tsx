@@ -24,20 +24,18 @@ export default function InvoicePage({ params }: { params: { orgId: string } }) {
     queryFn: async () => await getInvoicesByOrgId(params.orgId),
   })
 
-  const deleteInvoice = (id: string) => {
-    const invDel = useMutation({
-      mutationKey: ['deleteInvoice', id],
-      mutationFn: async () => await deleteInvoiceById(id),
-      onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['invList']})
-        toast({
-          title: 'Invoice Deleted',
-          description: 'Invoice has been deleted successfully',
-          variant: 'destructive'
-        })
-      },
-    })
-  }
+  const invDel = useMutation({
+    mutationFn: async (id: string) => await deleteInvoiceById(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['invList']})
+      toast({
+        title: 'Invoice Deleted',
+        description: 'Invoice has been deleted successfully',
+        variant: 'destructive'
+      })
+    },
+  })
+
   return (
     <section>
       <Card>
@@ -75,7 +73,7 @@ export default function InvoicePage({ params }: { params: { orgId: string } }) {
                   <TableCell>{inv.totalAmount}</TableCell>
                   <TableCell><Button variant='secondary' onClick={() => router.push(`/organization/${params.orgId}/invoice/${inv.id}`)}>PDF</Button></TableCell>
                   <TableCell><Button variant='secondary' onClick={() => router.push(`/organization/${params.orgId}/invoice/form?id=${inv.id}`)}><FilePenLine className="mr-2" />Edit</Button></TableCell>
-                  <TableCell><Button size='icon' variant='destructive' onClick={() => deleteInvoice(inv.id)}><Trash2 /></Button></TableCell>
+                  <TableCell><Button size='icon' variant='destructive' onClick={() => invDel.mutate(inv.id)}><Trash2 /></Button></TableCell>
                 </TableRow>
               ))}
             </TableBody>
