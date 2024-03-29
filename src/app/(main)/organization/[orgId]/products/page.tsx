@@ -39,7 +39,7 @@ export default function ProductsPage({params}: {params: {orgId: string}}) {
   return (
    <main className='flex flex-col p-2 px-4'>
       <div className='flex items-center justify-evenly gap-2 my-2 mb-4'>
-        <h1 className='text-2xl text-bold my-2'>Products</h1>
+        <h1 className='text-2xl font-bold my-2'>Products</h1>
         <ProductsDialog isNew />
       </div>
       {

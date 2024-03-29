@@ -20,6 +20,7 @@ import { Organization } from "@prisma/client";
 import { toast } from "./ui/use-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useSession } from "next-auth/react";
+import { Separator } from "./ui/separator";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -33,6 +34,10 @@ const formSchema = z.object({
   zipCode: z.string().min(1),
   state: z.string().min(1),
   country: z.string().min(1),
+  bankName: z.string().min(1),
+  bankBranch: z.string().min(1),
+  accountNo: z.string().min(1).max(12),
+  ifsc: z.string().min(1)
 });
 
 export default function OrganizationForm({ prevData, inDialog = false }: { prevData?: Organization, inDialog?: boolean }) {
@@ -53,6 +58,10 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
       zipCode: prevData?.zipCode || "",
       state: prevData?.state || "",
       country: prevData?.country || "",
+      bankName: prevData?.bankName || "",
+      bankBranch: prevData?.bankBranch || "",
+      accountNo: prevData?.accountNo || "",
+      ifsc: prevData?.ifsc || ""
     },
   });
   const isLoading = form.formState.isSubmitting;
@@ -72,12 +81,16 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
       state: values.state,
       country: values.country,
       createdAt: prevData?.createdAt || new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      bankName: values.bankName,
+      bankBranch: values.bankBranch,
+      accountNo: values.accountNo,
+      ifsc: values.ifsc
     }),
     mutationKey: ['orgs', form.getValues().name],
     onSuccess: () => {
       toast({
-        title: 'Organization Updated',
+        title: 'Organization Saved',
       })
       queryClient.invalidateQueries({ queryKey: ['orgs'] })
       queryClient.invalidateQueries({ queryKey: ['org'] })  
@@ -88,14 +101,14 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((data, event) => onSubmit.mutate(data))}
-        className="flex flex-col gap-y-2"
+        className="flex flex-col gap-2 p-1"
       >
         <FormField
           disabled={isLoading}
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="p-1">
+            <FormItem>
               <FormLabel>Company Name</FormLabel>
               <FormControl>
                 <Input placeholder="ABC Ltd" {...field} />
@@ -109,7 +122,7 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
           control={form.control}
           name="gstno"
           render={({ field }) => (
-            <FormItem className="p-1">
+            <FormItem>
               <FormLabel>GST No</FormLabel>
               <FormControl>
                 <Input placeholder="Company GST" {...field} />
@@ -118,13 +131,13 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
             </FormItem>
           )}
         />
-        <div className="grid md:grid-cols-2">
+        <div className="grid md:grid-cols-2 gap-2">
           <FormField
             disabled={isLoading}
             control={form.control}
             name="companyEmail"
             render={({ field }) => (
-              <FormItem className="p-1">
+              <FormItem>
                 <FormLabel>Company Email</FormLabel>
                 <FormControl>
                   <Input placeholder="xyz@gmail.com" {...field} />
@@ -138,7 +151,7 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
             control={form.control}
             name="companyPhone"
             render={({ field }) => (
-              <FormItem className="p-1">
+              <FormItem>
                 <FormLabel>Company Phone</FormLabel>
                 <FormControl>
                   <Input placeholder="+91XXXXXXXXXX" {...field} />
@@ -153,7 +166,7 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
           control={form.control}
           name="address"
           render={({ field }) => (
-            <FormItem className="p-1">
+            <FormItem>
               <FormLabel>Address</FormLabel>
               <FormControl>
                 <Input placeholder="ABC Street ......" {...field} />
@@ -162,7 +175,7 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
             </FormItem>
           )}
         />
-        <div className="md: grid grid-cols-2 gap-4 p-1">
+        <div className="md: grid grid-cols-2 gap-2">
           <FormField
             disabled={isLoading}
             control={form.control}
@@ -219,6 +232,62 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
               </FormItem>
             )}
           />
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name="bankName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bank Name</FormLabel>
+              <FormControl>
+                <Input placeholder="HDFC Bank" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+          <FormField
+            disabled={isLoading}
+            control={form.control}
+            name="accountNo"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Account No</FormLabel>
+                <FormControl>
+                  <Input placeholder="1234567890" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name="bankBranch"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bank Branch</FormLabel>
+              <FormControl>
+                <Input placeholder="Surat" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name="ifsc"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>IFSC</FormLabel>
+              <FormControl>
+                <Input placeholder="HDFC0001234" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         </div>
         {inDialog ? (
           <DialogClose asChild>
@@ -226,7 +295,7 @@ export default function OrganizationForm({ prevData, inDialog = false }: { prevD
           </DialogClose>
         ) : (
 
-          <Button disabled={isLoading || !isValid} className="mt-4" type="submit">Submit</Button>
+          <Button disabled={isLoading || !isValid} className="mt-4 w-full max-w-[250px] mx-auto" type="submit">Submit</Button>
         )}
       </form>
     </Form>

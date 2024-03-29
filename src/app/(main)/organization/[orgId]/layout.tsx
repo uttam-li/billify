@@ -5,7 +5,7 @@ export default function OrganizationLayout({ children }: { children: React.React
   return (
     <>
       <OrgNavbar />
-      <div className="h-[calc(100vh-64)] mt-16">
+      <div className="h-[calc(100vh-68px)] mt-20">
         {children}
       </div>
     </>

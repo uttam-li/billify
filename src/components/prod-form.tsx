@@ -55,7 +55,7 @@ export default function ProductsForm({ prevData }: { prevData?: Product }) {
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['products']})
             toast({
-                title: 'SUCCESS'
+                title: 'Product Saved'
             })
         },
         onError: (error: any) => {
@@ -70,7 +70,7 @@ export default function ProductsForm({ prevData }: { prevData?: Product }) {
     return (
         <Form {...form}>
             <form
-                className="flex flex-col gap-2 w-full"
+                className="flex flex-col gap-2 w-full p-1"
                 onSubmit={form.handleSubmit((data) => onSubmit.mutate(data))}>
                 <FormField
                     disabled={isLoading}

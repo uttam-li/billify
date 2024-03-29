@@ -4,6 +4,7 @@ import { HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/r
 import { useState } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function Provider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -14,8 +15,15 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={queryClient}>
-          <ReactQueryDevtools />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            >
+            <ReactQueryDevtools />
+            {children}
+          </ThemeProvider>
         </HydrationBoundary>
       </QueryClientProvider>
     </SessionProvider>

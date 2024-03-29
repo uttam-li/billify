@@ -2,6 +2,8 @@ import { Check, CheckCheckIcon, CheckCircle, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { features } from "@/lib/constant";
 import TestimonialCard from "../../components/testimonial-card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
@@ -17,36 +19,39 @@ export default function Home() {
             Billify
           </h1>
         </div>
-        <div className="flex justify-center items-centerrelative md:mt-[-100px]">
+        <div className="flex justify-center items-center relative md:mt-[-70px] -z-20">
           <Image
-            src={"/dashboard-examples-hero.png"}
+            src={"/dashboard.png"}
             alt="banner image"
             height={1200}
             width={1200}
-            className="rounded-tl-2xl rounded-tr-2xl"
+            className="rounded-3xl"
           />
-          <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-10"></div>
+          <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-50"></div>
         </div>
       </section>
-      <hr className="my-5" />
+      <Separator className="my-5 w-1/2 m-auto" />
       <section className="w-full flex flex-col items-center gap-8 my-10">
         <p className="text-2xl md:text-4xl font-bold">A word from your users :&#41;</p>
         <TestimonialCard />
       </section>
-      <hr className="my-5" />
-      <section className="flex flex-col items-center justify-center gap-8 my-10">
-        <h6 className="font-bold text-4xl">Features</h6>
-        <ul className="flex flex-col gap-y-3">
+      <Separator className="my-5 w-1/2 m-auto" />
+      <section className="container mx-auto max-w-[900px] my-5">
+        <h1 className="text-3xl font-bold text-center my-8">Unlock the Power of Streamlined Business Management</h1>
+        <div className="flex flex-col gap-4 items-center">
           {features.map((item) => (
-            <li
-              className="inline-flex text-muted-foreground text-xl items-center gap-4"
-              key={item}
-            >
-              <CheckCircle />
-              {item}
-            </li>
+            <Card key={item.title} className="flex even:justify-start items-center w-full py-2 max-w-[600px] gap-4 odd:flex-row even:flex-row-reverse px-4">
+              <CardHeader className="w-2/3">
+                <CardTitle className="text-xl font-bold text-blue-600">{item.title}</CardTitle>
+                <Separator />
+                <CardDescription className="text-xs md:text-sm">{item.description}</CardDescription>
+              </CardHeader>
+                <CardContent className="bg-secondary p-2 rounded-2xl m-auto">
+                  {item.icon}
+                </CardContent>
+            </Card>
           ))}
-        </ul>
+        </div>
       </section>
     </>
   );

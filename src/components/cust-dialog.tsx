@@ -22,7 +22,7 @@ export default function CustomerDialog({ prevData, isNew = false }: { prevData?:
                     }
                 </Button>
             </DialogTrigger>
-            <DialogContent className="w-[350px] md:w-[600px] h-[500px] md:h-auto overflow-auto">
+            <DialogContent className="min-w-[350px] w-auto h-[500px] md:h-auto overflow-auto">
                 <ScrollArea>
                     <DialogHeader className='flex flex-col items-center my-2'>
                         <DialogTitle className="text-2xl inline-flex items-center justify-center gap-2">{isNew ? <>

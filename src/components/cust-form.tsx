@@ -60,7 +60,7 @@ export default function CustomerForm({ prevData }: { prevData?: Customer }) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["customers"] })
             toast({
-                title: "Success"
+                title: "Customer Saved"
             })
             form.reset()
         },

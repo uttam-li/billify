@@ -75,6 +75,10 @@ export async function upsertOrganization(org: Organization) {
         zipCode: org.zipCode,
         state: org.state,
         country: org.country,
+        bankName: org.bankName,
+        bankBranch: org.bankBranch,
+        accountNo: org.accountNo,
+        ifsc: org.ifsc,
         updatedAt: org.updatedAt,
       },
       create: {
@@ -93,6 +97,10 @@ export async function upsertOrganization(org: Organization) {
         zipCode: org.zipCode,
         state: org.state,
         country: org.country,
+        bankName: org.bankName,
+        bankBranch: org.bankBranch,
+        accountNo: org.accountNo,
+        ifsc: org.ifsc,
         createdAt: org.createdAt,
         updatedAt: org.updatedAt,
       },
@@ -397,20 +405,39 @@ export async function deleteCustomerById(id: string) {
   }
 }
 
-// export async function getInvoicesByOrgId(id: string) {
-//   if (!id ) return
-//   try {
-//     const invoiceDetail = await db.invoice.findMany({
-//       where: {
-//         organizationId: id
-//       },
-//       include: {
-//         items: {
-//           select: {
+export async function getInvoiceDetails(invoiceId: string) {
+  const invoice = await db.invoice.findUnique({
+      where: {
+          id: invoiceId,
+      },
+      include: {
+          customer: {
+              select: {
+                  name: true,
+                  gstno: true,
+                  email: true,
+                  phone: true,
+                  baddress: true,
+                  saddress: true
+              },
+          },
+          items: {
+              select: {
+                  quantity: true,
+                  unitPrice: true,
+                  product: {
+                      select: {
+                          name: true,
+                          price: true,
+                          taxRate: true,
+                          unit: true,
+                          hsnCode: true,
+                      },
+                  },
+              },
+          },
+      },
+  });
 
-//           }
-//         }
-//       }
-//     })
-//   }
-// }
+  return invoice;
+}

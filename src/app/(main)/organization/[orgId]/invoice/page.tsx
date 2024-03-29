@@ -7,7 +7,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { toast } from "@/components/ui/use-toast"
 import { deleteInvoiceById, getInvoicesByOrgId, getOrganizationById } from "@/lib/actions"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { FilePenLine, ReceiptIndianRupee, Trash } from "lucide-react"
+import { FilePenLine, FilePlus2, ReceiptIndianRupee, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export default function InvoicePage({ params }: { params: { orgId: string } }) {
@@ -44,8 +44,8 @@ export default function InvoicePage({ params }: { params: { orgId: string } }) {
         <CardHeader>
           <CardTitle className="flex justify-evenly">
             <>
-              <span className="inline-flex items-center gap-1">
-                <ReceiptIndianRupee /> Invoice
+              <span className="inline-flex items-center gap-1 text-2xl font-bold">
+                 Invoice
               </span>
               <Button onClick={() => router.push(`/organization/${params.orgId}/invoice/form`)}>New Invoice</Button>
             </>
@@ -73,9 +73,9 @@ export default function InvoicePage({ params }: { params: { orgId: string } }) {
                   <TableCell>{new Date(inv.invDate).toLocaleDateString('en-IN')}</TableCell>
                   <TableCell>{inv.isPaid ? <Badge variant='default'>Paid</Badge> : <Badge variant='destructive'>Pending</Badge>}</TableCell>
                   <TableCell>{inv.totalAmount}</TableCell>
-                  <TableCell><Button variant='secondary'>PDF</Button></TableCell>
+                  <TableCell><Button variant='secondary' onClick={() => router.push(`/organization/${params.orgId}/invoice/${inv.id}`)}>PDF</Button></TableCell>
                   <TableCell><Button variant='secondary' onClick={() => router.push(`/organization/${params.orgId}/invoice/form?id=${inv.id}`)}><FilePenLine className="mr-2" />Edit</Button></TableCell>
-                  <TableCell><Button size='icon' variant='destructive' onClick={() => deleteInvoice(inv.id)}><Trash /></Button></TableCell>
+                  <TableCell><Button size='icon' variant='destructive' onClick={() => deleteInvoice(inv.id)}><Trash2 /></Button></TableCell>
                 </TableRow>
               ))}
             </TableBody>

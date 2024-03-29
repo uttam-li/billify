@@ -12,18 +12,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import OrganizationForm from "./org-form"
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Building2 } from "lucide-react"
 
 export default function CreateOrganization() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Create New Company</Button>
+        <Button className="flex gap-2"><Building2 />Create New Company</Button>
       </DialogTrigger>
-      <DialogContent className="w-[350px] md:w-[600px] h-[500px] md:h-[700px]">
+      <DialogContent className="min-w-[350px] w-auto h-[500px] md:h-[700px]">
         <ScrollArea>
-        <DialogHeader>
-          <DialogTitle>Create New Company</DialogTitle>
-          <DialogDescription>
+        <DialogHeader className="flex items-center">
+          <DialogTitle className="inline-flex items-center gap-2 text-2xl"><Building2 />Create New Company</DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground">
             Fill in the form below to create a new company.
           </DialogDescription>
         </DialogHeader>

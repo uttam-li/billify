@@ -39,6 +39,10 @@ model Organization {
   zipCode      String
   state        String
   country      String
+  bankName     String
+  accountNo    String
+  ifsc         String
+  bankBranch   String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   customers    Customer[]

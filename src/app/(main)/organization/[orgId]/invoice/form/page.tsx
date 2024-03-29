@@ -4,9 +4,8 @@ import InvoiceForm from "@/components/inv-form"
 import Loading from "@/components/loading"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getInvoiceById, getOrganizationById } from "@/lib/actions"
-import { Invoice } from "@prisma/client"
-import { QueryClient, useQuery } from "@tanstack/react-query"
-import { FilePenLine, ReceiptIndianRupee } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import { FilePenLine, FilePlus2 } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 
 export default function NewInvoicePage({ params }: { params: { orgId: string } }) {
@@ -25,7 +24,7 @@ export default function NewInvoicePage({ params }: { params: { orgId: string } }
         staleTime: 1000 * 60 * 5
     })
     console.log('id', id !== '')
-    if (isLoadingOrgData || isLoadingPrevData ) return <Loading />
+    if (isLoadingOrgData || isLoadingPrevData ) return <div className="h-screen w-screen"><Loading /></div>
     return (
         <Card className="md:max-w-[900px] m-auto p-2 mb-5">
             <CardHeader className="flex items-center">
@@ -37,7 +36,7 @@ export default function NewInvoicePage({ params }: { params: { orgId: string } }
                         </>
                         :
                         <>
-                            <ReceiptIndianRupee />
+                            <FilePlus2 />
                             New Invoice
                         </>
                     }

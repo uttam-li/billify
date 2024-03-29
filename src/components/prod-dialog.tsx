@@ -1,7 +1,7 @@
 import { Product } from "@prisma/client";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { FileBox, Package } from "lucide-react";
+import { FileBox, PackagePlus } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import ProductsForm from "./prod-form";
 
@@ -13,7 +13,7 @@ export default function ProductsDialog({ prevData, isNew = false }: { prevData?:
                 <Button variant={isNew ? "default" : "secondary"} size={isNew ? "default" : "icon"} className="inline-flex gap-2 items-center">
                     {isNew ?
                         <>
-                            <Package />
+                            <PackagePlus />
                             New Product
                         </>
                         :
@@ -27,7 +27,7 @@ export default function ProductsDialog({ prevData, isNew = false }: { prevData?:
                 <ScrollArea>
                     <DialogHeader className='flex flex-col items-center my-2'>
                         <DialogTitle className="text-2xl inline-flex items-center justify-center gap-2">{isNew ? <>
-                            <Package />
+                            <PackagePlus />
                             Add New Product
                         </> :
                             <>

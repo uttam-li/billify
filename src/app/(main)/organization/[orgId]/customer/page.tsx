@@ -36,7 +36,7 @@ export default function CustomerPage({ params }: { params: { orgId: string } }) 
   return (
     <main className='flex flex-col p-2 px-4'>
       <div className='flex items-center justify-evenly gap-2 my-2 mb-4'>
-        <h1 className='text-2xl text-bold my-2'>Customers</h1>
+        <h1 className='text-2xl font-bold my-2'>Customers</h1>
         <CustomerDialog isNew />
       </div>
       {
@@ -53,16 +53,16 @@ export default function CustomerPage({ params }: { params: { orgId: string } }) 
               </TableRow>
             </TableHeader>
             <TableBody>
-            {customerList?.length === 0 && !isLoading && <TableRow><TableCell colSpan={5} className='text-muted-foreground text-center'>No Customers Available</TableCell></TableRow>}
-            {customerList?.map(({ Invoice, ...detail }) =>
-              <TableRow key={detail.id}>
-                <TableCell>{Invoice.length}</TableCell>
-                <TableCell>{detail.name}</TableCell>
-                <TableCell>₹ {Invoice.map((i) => Number(i.totalAmount)).reduce((a, b) => a + b, 0)}</TableCell>
-                <TableCell><CustomerDialog prevData={detail} /></TableCell>
-                <TableCell><Button variant="destructive" size="icon" onClick={() => deleteCustomer.mutate(detail.id)}><Trash2 /></Button></TableCell>
-              </TableRow>
-            )}
+              {customerList?.length === 0 && !isLoading && <TableRow><TableCell colSpan={5} className='text-muted-foreground text-center'>No Customers Available</TableCell></TableRow>}
+              {customerList?.map(({ Invoice, ...detail }) =>
+                <TableRow key={detail.id}>
+                  <TableCell>{Invoice.length}</TableCell>
+                  <TableCell>{detail.name}</TableCell>
+                  <TableCell>₹ {Invoice.map((i) => Number(i.totalAmount)).reduce((a, b) => a + b, 0)}</TableCell>
+                  <TableCell><CustomerDialog prevData={detail} /></TableCell>
+                  <TableCell><Button variant="destructive" size="icon" onClick={() => deleteCustomer.mutate(detail.id)}><Trash2 /></Button></TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
           :

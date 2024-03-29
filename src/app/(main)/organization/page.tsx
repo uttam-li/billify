@@ -1,6 +1,7 @@
 "use client";
 
 import CreateOrganization from "@/components/create-org";
+import Loading from "@/components/loading";
 import BillifyLogo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,27 +22,29 @@ export default function AccountPage() {
   const router = useRouter()
   const { data: user} = useSession()
   const userId = user?.user?.id
-  const { data: orgs } = useQuery({
+  const { data: orgs, isLoading } = useQuery({
     queryKey: ["orgs"],
     queryFn: async () => await getUserOrganization(userId as string),
     enabled: !!userId,
   });
 
+  if (!orgs) return <div className='h-screen w-screen'><Loading /></div>
+
   return (
     <main className="h-screen w-screen flex items-center justify-center p-6">
-      <Card className="w-full max-w-[600px]">
+      <Card className="w-full max-w-[600px] bg-secondary/20">
         <CardHeader>
           <CardTitle className="m-auto text-4xl flex flex-wrap justify-center gap-1 h-full">
             Welcome to <BillifyLogo size="text-4xl" />
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center my-5 gap-y-2">
-          {orgs ? (
+          {orgs?.length > 0 ? (
             orgs.map((org) => (
               <Button
                 key={org.orgId}
                 className="w-full max-w-[400px] h-14 block"
-                variant="outline"
+                variant='outline'
                 onClick={() => router.push(`/organization/${org.orgId}`)}
               >
                 <h1>{org.name}</h1>
@@ -49,7 +52,7 @@ export default function AccountPage() {
               </Button>
             ))
           ) : (
-            <p>No Companys found, Create one now.</p>
+            <p className="text-muted-foreground">No Companys found, Create one now.</p>
           )}
         </CardContent>
         <CardFooter className="flex items-center justify-center">

@@ -21,7 +21,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Separator } from "./ui/separator";
 import { Label } from "./ui/label";
 import { toast } from "./ui/use-toast";
-import Loading from "./loading";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     invoiceNo: z.number().min(1, { message: "Invoice No should be atleast 1." }),
@@ -33,6 +33,7 @@ const formSchema = z.object({
 export default function InvoiceForm({ orgData, prevData }: { orgData: Organization, prevData?: Invoice }) {
 
     const queryClient = useQueryClient()
+    const router = useRouter()
     const [selectedProd, setSelectedProd] = useState('')
     const [prodQty, setProdQty] = useState(0)
     const [prodPrice, setProdPrice] = useState(0)
@@ -122,8 +123,7 @@ export default function InvoiceForm({ orgData, prevData }: { orgData: Organizati
             queryClient.invalidateQueries({queryKey: ['invoiceList']})
             queryClient.invalidateQueries({queryKey: ['invItem']})
             toast({
-                title: "Success",
-                description: "Invoice generated successfully",
+                title: "Invoice Generated",
             })
         },
         onError: (error) => {
@@ -307,11 +307,11 @@ export default function InvoiceForm({ orgData, prevData }: { orgData: Organizati
                 <Table className="overflow-y-auto">
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Product Name</TableHead>
+                            <TableHead className="min-w-[200px]">Product Name</TableHead>
                             <TableHead>Rate&#047;Item</TableHead>
                             <TableHead>Quantity</TableHead>
-                            <TableHead>Taxable Amt</TableHead>
-                            <TableHead>Tax Amt</TableHead>
+                            <TableHead className="min-w-[150px]">Taxable Amt</TableHead>
+                            <TableHead className="min-w-[150px]">Tax Amt</TableHead>
                             <TableHead>Amount</TableHead>
                             <TableHead className='w-10'>Delete</TableHead>
                         </TableRow>
@@ -345,7 +345,7 @@ export default function InvoiceForm({ orgData, prevData }: { orgData: Organizati
                     </TableFooter>
                 </Table>
                 <Separator className="my-2" />
-                <Button type="submit" disabled={isLoading || !isValid || isEmpty } className="my-2 max-w-[300px] m-auto w-full">Generate Invoice</Button>
+                <Button type="submit" disabled={isLoading || !isValid || isEmpty } className="my-2 max-w-[300px] m-auto w-full" onClick={() => router.push(`/organization/${orgData.orgId}/invoice`)}>Generate Invoice</Button>
             </form>
         </Form >
     )
