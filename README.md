@@ -106,8 +106,9 @@ Before you begin, ensure you have met the following requirements:
     # For development
     NEXTAUTH_URL="http://localhost:3000"
 
-    # For production (replace 'your-hosted-url' with your actual hosted URL)
+    # For production (replace 'your-hosted-url' with your actual hosted URL, and 'your-nextauth-secret with a secret)
     NEXTAUTH_URL="your-hosted-url"
+    NEXTAUTH_SECRET="your-nextauth-secret"
     
     # Obtain all the secrets from the respective providers
     GOOGLE_ID="<Your Google ID>"
