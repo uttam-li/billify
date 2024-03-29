@@ -22,7 +22,7 @@ Billify is a billing system designed to help small businesses manage their invoi
 
 ## Demo :link:
 
-Check out a live demo of Billify [here](https://example.com).
+Check out a live demo of Billify [here](https://billify-psi.vercel.app).
 
 ## Technologies Used
 
