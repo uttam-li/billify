@@ -1,4 +1,3 @@
-import { Check, CheckCheckIcon, CheckCircle, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { features } from "@/lib/constant";
 import TestimonialCard from "../../components/testimonial-card";
@@ -15,25 +14,25 @@ export default function Home() {
 
         <p className="text-center">Simple billing solution for you business</p>
         <div className="bg-gradient-to-r from-primary to-secondary-foreground text-transparent bg-clip-text relative">
-          <h1 className="text-9xl font-bold text-center md:text-[300px]">
+          <h1 className="text-9xl font-bold text-center md:text-[300px] h-[150px] md:h-[320px]">
             Billify
           </h1>
         </div>
-        <div className="flex justify-center items-center relative md:mt-[-70px] -z-20">
+        <div className="flex justify-center items-center relative mt-[-39px] md:mt-[-60px] -z-20 px-5">
           <Image
             src={"/dashboard.png"}
             quality={100}
             alt="banner image"
             height={1200}
             width={1200}
-            className="rounded-lg"
+            className="rounded-t-lg border-4 border-primary dark:border-secondary-foreground"
           />
           <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-50"></div>
         </div>
       </section>
       <Separator className="my-5 w-1/2 m-auto" />
       <section className="w-full flex flex-col items-center gap-8 my-10">
-        <p className="text-2xl md:text-4xl font-bold">A word from your users :&#41;</p>
+        <p className="text-2xl md:text-4xl font-bold">Testimonials from your users</p>
         <TestimonialCard />
       </section>
       <Separator className="my-5 w-1/2 m-auto" />

@@ -37,8 +37,8 @@ export default function InvoicePage({ params }: { params: { orgId: string } }) {
   })
 
   return (
-    <section>
-      <Card>
+
+      <Card className="max-w-[1400px] m-auto">
         <CardHeader>
           <CardTitle className="flex justify-evenly">
             <>
@@ -54,7 +54,7 @@ export default function InvoicePage({ params }: { params: { orgId: string } }) {
             <TableCaption>Discover all the invoices associated with your company</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead>Invoice No</TableHead>
+                <TableHead className="w-[150px]">Invoice No</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Amount</TableHead>
@@ -80,7 +80,7 @@ export default function InvoicePage({ params }: { params: { orgId: string } }) {
           </Table>
         </CardContent>
       </Card>
-    </section>
+    // </section>
 
   )
 }

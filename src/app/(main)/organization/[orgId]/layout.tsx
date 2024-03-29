@@ -1,7 +1,6 @@
 import OrgNavbar from "@/components/org-navbar";
 
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
-  // console.log(params, 'paramsfromorglayout')
   return (
     <>
       <OrgNavbar />

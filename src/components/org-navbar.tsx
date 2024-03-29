@@ -15,17 +15,17 @@ import { navLinks } from "@/lib/constant"
 import { ModeToggle } from "./mode-toggle"
 import Image from "next/image"
 import Loading from "./loading"
-import { useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 export default function OrgNavbar() {
   const { data: session, status } = useSession()
-  const params = useSearchParams()
-  const orgId = params.get('orgId')
-
+  const params = usePathname()
   const { name: userName, email: userEmail, image: userImage } = session?.user || {}
 
+  const orgId = params.split('/')[2]
+
   if (status === 'loading') return <Loading />
-  if (!session ) return
+  if (!session) return
   return (
     <div className="fixed h-16 px-4 max-w-[1500px] mx-auto left-0 right-0 top-0 flex items-center justify-between bg-secondary rounded-full my-2">
       <aside className="flex items-center gap-4">
