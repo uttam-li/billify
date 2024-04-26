@@ -1,7 +1,5 @@
 # Billify
 
----
-
 ## Table of Contents
 
 - [Overview](#overview-pencil)
@@ -13,8 +11,6 @@
 - [Features](#features-sparkles)
 - [Prerequisites](#prerequisites-gear)
 - [Getting Started](#getting-started-rocket)
-
----
 
 ## Overview :pencil:
 
