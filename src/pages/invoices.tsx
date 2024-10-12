@@ -50,7 +50,7 @@ import {
 export function Invoices() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
-  const [filterStatus, setFilterStatus] = useState<string>("All");
+  const [filterStatus] = useState<string>("All");
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [invoiceToDelete, setInvoiceToDelete] = useState<Invoice | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null); // State to manage PDF URL
@@ -96,7 +96,7 @@ export function Invoices() {
       const { data } = await axiosPrivate.put(`/invoices/${id}/status`);
       return data;
     },
-    onSuccess: (data, id) => {
+    onSuccess: (_, id) => {
       toast.success("Invoice status updated successfully");
       const invoiceToUpdate = invoicesData?.find(
         (invoice) => invoice.id === id
